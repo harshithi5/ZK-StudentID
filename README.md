@@ -220,5 +220,6 @@ From this, you can tell: credentials are signed by IIT Dholakpur and CGPA ≥ 8.
 - Harshit Kumar Singh
 - Kartavya Sandhu
 - Om Kumar
-- Adarsh Tripathi 
+- Adarsh Tripathi
+  
 Built for Hackathon 2026 🚀
