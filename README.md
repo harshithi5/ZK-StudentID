@@ -215,11 +215,5 @@ From this, you can tell: credentials are signed by IIT Dholakpur and CGPA ≥ 8.
 - Mobile wallet app with biometric binding
 - Multi-institute support with shared credential schema
 
-## Team
-
-- Harshit Kumar Singh
-- Kartavya Sandhu
-- Om Kumar
-- Adarsh Tripathi
   
 Built for Hackathon 2026 🚀
