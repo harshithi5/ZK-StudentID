@@ -1,0 +1,338 @@
+/* MS365 Student Discount — Styles */
+:root {
+  --ms-blue: #0078d4;
+  --ms-dark-blue: #005a9e;
+  --ms-light: #f3f2f1;
+  --ms-bg: #ffffff;
+  --ms-surface: #faf9f8;
+  --ms-border: #edebe9;
+  --ms-text: #323130;
+  --ms-text-muted: #605e5c;
+  --ms-success: #107c10;
+  --ms-danger: #d13438;
+  --radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", -apple-system, system-ui, sans-serif;
+  background: var(--ms-light);
+  color: var(--ms-text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Header */
+.ms-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.ms-logo {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.ms-logo div {
+  border-radius: 2px;
+}
+
+.ms-logo .r { background: #f25022; }
+.ms-logo .g { background: #7fba00; }
+.ms-logo .b { background: #00a4ef; }
+.ms-logo .y { background: #ffb900; }
+
+.ms-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.ms-subtitle {
+  font-size: 0.8rem;
+  color: var(--ms-text-muted);
+}
+
+/* Hero Banner */
+.hero {
+  background: linear-gradient(135deg, var(--ms-blue) 0%, var(--ms-dark-blue) 100%);
+  border-radius: var(--radius);
+  padding: 2rem;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.hero h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.hero .price {
+  margin-top: 1rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.hero .price .original {
+  text-decoration: line-through;
+  opacity: 0.6;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+/* Card */
+.card {
+  background: var(--ms-bg);
+  border: 1px solid var(--ms-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  color: var(--ms-text);
+}
+
+/* Steps */
+.steps {
+  counter-reset: step;
+}
+
+.step {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ms-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.step-number.done {
+  background: var(--ms-success);
+}
+
+.step-content h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.2rem;
+}
+
+.step-content p {
+  font-size: 0.8rem;
+  color: var(--ms-text-muted);
+}
+
+/* Nonce display */
+.nonce-box {
+  background: var(--ms-surface);
+  border: 2px dashed var(--ms-blue);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.nonce-box .label {
+  font-size: 0.75rem;
+  color: var(--ms-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nonce-box .code {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ms-blue);
+  margin: 0.5rem 0;
+  letter-spacing: 0.05em;
+  word-break: break-all;
+}
+
+.nonce-box .hint {
+  font-size: 0.75rem;
+  color: var(--ms-text-muted);
+}
+
+/* Upload area */
+.upload-area {
+  border: 2px dashed var(--ms-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.upload-area:hover {
+  border-color: var(--ms-blue);
+  background: rgba(0, 120, 212, 0.03);
+}
+
+.upload-area.loaded {
+  border-color: var(--ms-success);
+  border-style: solid;
+  background: rgba(16, 124, 16, 0.03);
+}
+
+/* Button */
+.btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: var(--ms-blue);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--ms-dark-blue);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Result */
+.result {
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.result.success {
+  background: rgba(16, 124, 16, 0.08);
+  border: 2px solid var(--ms-success);
+}
+
+.result.failed {
+  background: rgba(209, 52, 56, 0.08);
+  border: 2px solid var(--ms-danger);
+}
+
+.result .icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.result h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.result-details {
+  text-align: left;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--ms-border);
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+/* Privacy badge */
+.privacy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 120, 212, 0.08);
+  color: var(--ms-blue);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+/* Status */
+.status {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.status.info {
+  background: rgba(0, 120, 212, 0.08);
+  color: var(--ms-blue);
+}
+
+.status.error {
+  background: rgba(209, 52, 56, 0.08);
+  color: var(--ms-danger);
+}
+
+/* Loading */
+.loading {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  color: var(--ms-text-muted);
+}

@@ -1,0 +1,12 @@
+{
+  "name": "zk-studentid-circuits",
+  "version": "1.0.0",
+  "description": "ZK circuits for student credential verification",
+  "scripts": {
+    "setup": "node setup.js"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "snarkjs": "^0.7.4"
+  }
+}
