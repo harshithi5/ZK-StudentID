@@ -216,4 +216,4 @@ From this, you can tell: credentials are signed by IIT Dholakpur and CGPA ≥ 8.
 - Multi-institute support with shared credential schema
 
   
-Built for Hackathon 2026 🚀
+Built for Microsoft Intern Hackathon 2026 🚀
