@@ -11,11 +11,12 @@ Students share sensitive data (registration numbers, exact CGPA, transcripts) wi
 ## The Solution
 
 Using ZKPs + EdDSA signatures, students can prove:
-- ✅ "I am enrolled at IIT Dholakpur" — without sharing their enrollment number
+
+- ✅ "I am enrolled at IIT Dholakpur" — without sharing their enrollment number and other details.
 - ✅ "My CGPA ≥ 8.0" — without revealing their exact CGPA
 - ✅ "My credentials are cryptographically signed by IIT Dholakpur" — without exposing any personal identity
 
-The verifier (e.g., MS365) **never learns** the student's name, enrollment number, department, or exact CGPA.
+The verifier (e.g., MS365) **never learns** the student's name, enrollment number, department, or exact CGPA or some extra information.
 
 ## Architecture
 
@@ -28,7 +29,7 @@ The verifier (e.g., MS365) **never learns** the student's name, enrollment numbe
 │                  │         │     in, pastes   │         │     proof        │
 │                  │         │     nonce        │         │                  │
 │                  │         │  3. Institute    │         │  5. ✅ Discount   │
-│                  │         │     signs with   │         │     granted!     │
+│                  │         │     signs with   │         │     granted!!     │
 │                  │         │     EdDSA &      │         │                  │
 │                  │         │     generates    │         │                  │
 │                  │         │     ZK proof     │         │                  │
@@ -43,45 +44,46 @@ The verifier (e.g., MS365) **never learns** the student's name, enrollment numbe
 4. **Verifier** only sees the institute's **public key** + a valid proof — fully offline, no registry needed
 
 This is stronger than hash-based approaches because:
+
 - No credential hash registry needed — just a public key
-- Verifier can confirm *which* institute issued credentials
+- Verifier can confirm _which_ institute issued credentials
 - Cryptographically unforgeable — nobody can create valid proofs without the institute's signature
 
 ## Security Features
 
-| Attack | Prevention |
-|--------|-----------|
-| **Proof replay** (using same proof twice) | Nonce is one-time use — rejected on second attempt |
-| **Proof transfer** (sharing proof with a friend) | Nonce binds proof to a specific MS365 session |
-| **Data forgery** (faking CGPA) | EdDSA signature verified inside ZK circuit — only institute can sign |
-| **Identity leakage** | Enrollment number and name are private inputs — never in the proof |
-| **Rogue issuer** | Verifier checks public key matches trusted institute |
+| Attack                                           | Prevention                                                           |
+| ------------------------------------------------ | -------------------------------------------------------------------- |
+| **Proof replay** (using same proof twice)        | Nonce is one-time use — rejected on second attempt                   |
+| **Proof transfer** (sharing proof with a friend) | Nonce binds proof to a specific MS365 session                        |
+| **Data forgery** (faking CGPA)                   | EdDSA signature verified inside ZK circuit — only institute can sign |
+| **Identity leakage**                             | Enrollment number and name are private inputs — never in the proof   |
+| **Rogue issuer**                                 | Verifier checks public key matches trusted institute                 |
 
 ## What the Verifier Sees vs What's Hidden
 
-| Data | Visible to verifier? |
-|------|---------------------|
-| Enrolled (yes/no) | ✅ Only if requested |
-| CGPA ≥ threshold | ✅ Only the threshold, not exact value |
-| Institute's public key (proves who signed) | ✅ Yes |
-| Session nonce | ✅ Yes (for anti-replay) |
-| Student's name | ❌ **Hidden** |
-| Enrollment number | ❌ **Hidden** |
-| Exact CGPA | ❌ **Hidden** |
-| Department | ❌ **Hidden** |
-| EdDSA signature itself | ❌ **Hidden** (verified inside ZK) |
+| Data                                       | Visible to verifier?                   |
+| ------------------------------------------ | -------------------------------------- |
+| Enrolled (yes/no)                          | ✅ Only if requested                   |
+| CGPA ≥ threshold                           | ✅ Only the threshold, not exact value |
+| Institute's public key (proves who signed) | ✅ Yes                                 |
+| Session nonce                              | ✅ Yes (for anti-replay)               |
+| Student's name                             | ❌ **Hidden**                          |
+| Enrollment number                          | ❌ **Hidden**                          |
+| Exact CGPA                                 | ❌ **Hidden**                          |
+| Department                                 | ❌ **Hidden**                          |
+| EdDSA signature itself                     | ❌ **Hidden** (verified inside ZK)     |
 
 ## Tech Stack
 
-| Component | Technology |
-|-----------|-----------|
-| ZK Circuit | Circom 2.2 |
-| Proof System | Groth16 via snarkjs |
-| Signature | EdDSA on Baby Jubjub curve |
-| Hash Function | Poseidon (ZK-friendly) |
-| Backend | Node.js + Express |
-| Institute Frontend | React + Vite (port 5173) |
-| MS365 Frontend | React + Vite (port 5174) |
+| Component          | Technology                 |
+| ------------------ | -------------------------- |
+| ZK Circuit         | Circom 2.2                 |
+| Proof System       | Groth16 via snarkjs        |
+| Signature          | EdDSA on Baby Jubjub curve |
+| Hash Function      | Poseidon (ZK-friendly)     |
+| Backend            | Node.js + Express          |
+| Institute Frontend | React + Vite (port 5173)   |
+| MS365 Frontend     | React + Vite (port 5174)   |
 
 ## Project Structure
 
@@ -160,18 +162,19 @@ cd ms365 && npx vite                      # http://localhost:5174
 
 ## Mock Student Accounts
 
-| Enrollment No | Name | CGPA | Enrolled | Password |
-|---------------|------|------|----------|----------|
-| B23165 | Om Kumar | 8.75 | ✅ Yes | pass123 |
-| B23042 | Priya Patel | 9.20 | ✅ Yes | pass123 |
-| B23108 | Rahul Verma | 7.50 | ✅ Yes | pass123 |
-| B22091 | Sneha Gupta | 8.10 | ❌ No (Graduated) | pass123 |
+| Enrollment No | Name        | CGPA | Enrolled          | Password |
+| ------------- | ----------- | ---- | ----------------- | -------- |
+| B23165        | Om Kumar    | 8.75 | ✅ Yes            | pass123  |
+| B23042        | Priya Patel | 9.20 | ✅ Yes            | pass123  |
+| B23108        | Rahul Verma | 7.50 | ✅ Yes            | pass123  |
+| B22091        | Sneha Gupta | 8.10 | ❌ No (Graduated) | pass123  |
 
 ## How the ZK Circuit Works
 
 The `studentVerify.circom` circuit uses **EdDSAPoseidonVerifier** from circomlib (~7698 non-linear constraints).
 
 **Private inputs** (never leaves the student/institute):
+
 - `regNo` — enrollment number (numeric)
 - `cgpa` — exact CGPA × 100
 - `enrolled` — enrollment status (0 or 1)
@@ -179,12 +182,14 @@ The `studentVerify.circom` circuit uses **EdDSAPoseidonVerifier** from circomlib
 - `sigR8x`, `sigR8y`, `sigS` — EdDSA signature components
 
 **Public inputs** (verifier sees these):
+
 - `pubKeyX`, `pubKeyY` — Institute's EdDSA public key (identifies the issuer)
 - `cgpaThreshold` — minimum CGPA to prove (× 100)
 - `checkEnrolled` — whether to verify enrollment (0 or 1)
 - `nonce` — session binding (anti-replay)
 
 **Constraints verified inside the proof:**
+
 1. `msg = Poseidon(regNo, cgpa, enrolled, salt)` → computes credential hash
 2. `EdDSAVerify(pubKey, msg, signature) === true` → data is signed by trusted institute
 3. `enrolled === 1` (if requested) → student is currently enrolled
@@ -196,11 +201,11 @@ The `studentVerify.circom` circuit uses **EdDSAPoseidonVerifier** from circomlib
 ```json
 {
   "publicSignals": [
-    "4537517...",       // pubKeyX (institute's public key X)
-    "1633638...",       // pubKeyY (institute's public key Y)
-    "800",             // cgpaThreshold (proves CGPA ≥ 8.0)
-    "0",               // checkEnrolled (not checked in this proof)
-    "111754327092404"  // nonce (bound to MS365 session)
+    "4537517...", // pubKeyX (institute's public key X)
+    "1633638...", // pubKeyY (institute's public key Y)
+    "800", // cgpaThreshold (proves CGPA ≥ 8.0)
+    "0", // checkEnrolled (not checked in this proof)
+    "111754327092404" // nonce (bound to MS365 session)
   ]
 }
 ```
@@ -215,5 +220,4 @@ From this, you can tell: credentials are signed by IIT Dholakpur and CGPA ≥ 8.
 - Mobile wallet app with biometric binding
 - Multi-institute support with shared credential schema
 
-  
 Built for Microsoft Intern Hackathon 2026 🚀
